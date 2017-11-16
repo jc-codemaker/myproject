@@ -1,0 +1,134 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>个人信息</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/fresh_css.css">
+    <script src="/static/js/jquery-1.12.5.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+</head>
+<body>
+<div class="Cart">
+    <div class="head">
+        <div class="headline">
+            <div class="welcome"><span>欢迎来到天天生鲜！</span></div>
+            <div class="nav">
+                <ul>
+                    {% if request.session.currentUser|default:'' != '' %}
+                    <li><span>欢迎您：</span><a href="/user/user_center">{{ request.session.currentUser }}</a><span>|</span></li>
+                    <li><a href="/user/logout">退出</a><span>|</span></li>
+                    {% else %}
+                    <li><a href="/user/login">登录</a><span>|</span></li>
+                    <li><a href="/user/register">注册</a><span>|</span></li>
+                    {% endif %}
+                    <li><a href="/user/user_center">用户中心</a><span>|</span></li>
+                    <li><a href="/shopping_cart/">我的购物车</a><span>|</span></li>
+                    <li><a href="/order/order_list">我的订单</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="user_center ">
+        <div class="user_center0">
+            <div class="user_center1">
+                <div class="log_loc">
+                    <div class="log01"><a href="/goods/index"><img src="/static/image/logo.png" alt="logo"></a></div>
+                    <div class="loc01">
+                        <span>|</span>
+                        <span>用户中心</span>
+                    </div>
+                </div>
+                <div class="goods_seek">
+                    <form action="/goods/goods_search" method="get">
+                        <input type="text" class="seek1" name="keyword"　{% if keyword %} value="{{ keyword }}" {% else %} placeholder="搜索商品" {% endif %}>
+                        <input type="submit" class="seek2" name="" value="搜索">
+                    </form>
+                </div>
+            </div>
+            <div class="user_center2">
+                <div class="user_list">
+                    <div class="user_center_headline"><span>用户中心</span></div>
+                    <div>
+                        <ul>
+                            <li class="user_center_menu1"><a href="/user/user_center">· 个人信息</a></li>
+                            <li class="user_center_menu"><a href="/order/order_list">· 全部订单</a></li>
+                            <li class="user_center_menu"><a href="/user/user_address">· 收货地址</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="particulars">
+                    <div>
+                        <span class="particulars1">基本信息</span>
+                        <div class="particulars1_1">
+                            <ul>
+                                <li><span class="user_inf1">&nbsp;&nbsp;&nbsp;&nbsp;用户名：</span><span class="user_inf2">{{ user.uname }}</span></li>
+                                <li><span class="user_inf1">联系方式：</span><span class="user_inf2">{{ user.uphone }}</span></li>
+                                <li><span class="user_inf1">联系地址：</span><span class="user_inf2">{{ user.uaddress }}</span></li>
+                            </ul>
+                        </div>
+                        <span class="particulars1">最近浏览</span>
+                        <div>
+                            <ul>
+                                {% for goods in goods_list %}
+                                <li class="particulars2_1">
+                                    <ul>
+                                        <li class="shop_show"><a href="/goods/{{ goods.id }}/"><img src="/static/media/{{goods.gpic }}" alt=""></a></li>
+                                        <li><a href="/goods/{{ goods.id }}/"><span>{{ goods.gtitle }}</span></a></li>
+                                        <li class="shop_price"><span class="price">￥{{ goods.gprice }}</span><span class="unit_price">{{ goods.gprice }}/{{ goods.gunit }}</span><a href="/shopping_cart/add/{{ goods.id }}/1"><img src="/static/image/shop_cart.png" alt="" class="shop_cart"></a></li>
+                                    </ul>
+                                </li>
+                                {% endfor %}
+{#                                <li class="particulars2_1">#}
+{#                                    <ul>#}
+{#                                        <li class="shop_show"><a href="#"><img src="/static/image/goods004.jpg" alt=""></a></li>#}
+{#                                        <li><a href="#"><span>吐鲁番梨光杏</span></a></li>#}
+{#                                        <li class="shop_price"><span class="price">￥5.50</span><span class="unit_price">5.50/500g</span><a href="#"><img src="/static/image/shop_cart.png" alt="" class="shop_cart"></a></li>#}
+{#                                    </ul>#}
+{#                                </li>#}
+{#                                <li class="particulars2_1">#}
+{#                                    <ul>#}
+{#                                        <li class="shop_show"><a href="#"><img src="/static/image/goods005.jpg" alt=""></a></li>#}
+{#                                        <li><a href="#"><span>黄肉桃</span></a></li>#}
+{#                                        <li class="shop_price"><span class="price">￥10.00</span><span class="unit_price">10.00/500g</span><a href="#"><img src="/static/image/shop_cart.png" alt="" class="shop_cart"></a></li>#}
+{#                                    </ul>#}
+{#                                </li>#}
+{#                                <li class="particulars2_1">#}
+{#                                    <ul>#}
+{#                                        <li class="shop_show"><a href="#"><img src="/static/image/goods006.jpg" alt=""></a></li>#}
+{#                                        <li><a href="#"><span>进口西梅</span></a></li>#}
+{#                                        <li class="shop_price"><span class="price">￥28.80</span><span class="unit_price">28.80/500g</span><a href="#"><img src="/static/image/shop_cart.png" alt="" class="shop_cart"></a></li>#}
+{#                                    </ul>#}
+{#                                </li>#}
+{#                                <li class="particulars2_1">#}
+{#                                    <ul>#}
+{#                                        <li class="shop_show"><a href="#"><img src="/static/image/goods007.jpg" alt=""></a></li>#}
+{#                                        <li><a href="#"><span>香梨</span></a></li>#}
+{#                                        <li class="shop_price"><span class="price">￥6.45</span><span class="unit_price">6.45/500g</span><a href="#"><img src="/static/image/shop_cart.png" alt="" class="shop_cart"></a></li>#}
+{#                                    </ul>#}
+{#                                </li>#}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="foot">
+        <div class="link">
+            <a href="#">关于我们</a>&nbsp; | &nbsp;
+            <a href="#">联系我们</a>&nbsp; | &nbsp;
+            <a href="#">招聘人才</a>&nbsp; | &nbsp;
+            <a href="#">友情链接</a>
+        </div>
+        <div class="copy-right">
+            <p> Copyright © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+        </div>
+        <div class="tel">
+            <p>电话：01-****888 京ICP备*******8号</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

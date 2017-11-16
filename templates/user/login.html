@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>天天生鲜用户登录</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/fresh_css.css">
+    <script src="/static/js/jquery-1.12.5.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.validate.min.js"></script>
+    <script src="/static/js/login.js"></script>
+
+{#    更换验证码    #}
+    <script type="text/javascript">
+        url = '/user/verification'
+        function changeImage(obj){
+            obj.src =  url+'?num='+new Date()
+        }
+    </script>
+
+{#    前端验证（点击触发）    #}
+{#    <script type="text/javascript">#}
+{#        function check() {#}
+{#            $("#signForm").validate({#}
+{#                rules: {#}
+{#                    user: {#}
+{#                        required: true,#}
+{#                        minlength: 6,#}
+{#                        maxlength: 16#}
+{#                    },#}
+{#                    pwd: {#}
+{#                        required: true,#}
+{#                        minlength: 6,#}
+{#                        maxlength: 16#}
+{#                    },#}
+{#                },#}
+{#                messages: {#}
+{#                    user: {#}
+{#                        required: "请输入用户名",#}
+{#                        minlength: "用户名长度不能小于 6 位",#}
+{#                        maxlength: "用户名长度不能大于 16 位"#}
+{#                    },#}
+{#                    pwd: {#}
+{#                        required: "请输入密码",#}
+{#                        minlength: "密码长度不能小于 6 位",#}
+{#                        maxlength: "密码长度不能大于 16 位"#}
+{#                    },#}
+{#                }#}
+{#            })#}
+{#        }#}
+{#        $(function(){#}
+{#            check()#}
+{#            /*$(document).contextmenu(function() {#}
+{#                return false;#}
+{#            });*/#}
+{#            $("#user").focus();#}
+{#            })#}
+{#    </script>#}
+
+</head>
+<body>
+<div class="login">
+    <form class="cmxform" id="signForm" method="post" action="/user/success">
+        {% csrf_token %}
+        <div class="login_head">
+            <a href="/goods/index" class="brand_logo">
+                <img src="/static/image/logo02.png" alt="">
+            </a>
+        </div>
+        <div class="login_body">
+            <div class="inside">
+                <div class="goods_logo">
+                    <img src="/static/image/login_banner.png" alt="">
+                </div>
+                <div class="note">
+                    <p>日夜兼程 · 急速送达</p>
+                </div>
+                <div class=" log_in">
+                    <div class="user_choose">
+                        <p class="user_in" >用户登录</p><a class="user_reg" href="/user/register">立即注册</a>
+                    </div>
+                    <div class="user_enter">
+                        <input type="text" id="username" name="username" value="{{ username }}" placeholder="请输入用户名" class="user">
+                        <table style="margin-left: 32px">
+                            <tr>
+                                <td style="color: red;font-size: small"><span id="username_error1" ></span></td>
+                            </tr>
+                        </table>
+                        <input type="password" id="userpwd" name="userpwd" value="" placeholder="请输入密码" class="pwd">
+                        <table style="margin-left: 32px">
+                            <tr>
+                                <td style="color: red;font-size: small"><span id="userpwd_error1" ></span></td>
+                            </tr>
+                        </table>
+                    <div style="text-align: center;width: 312px;margin: 5px auto">
+                        <table>
+                            <tr>
+                                <td><input id="userverification" name="userverification" placeholder="请输入验证码"/></td>
+                                <td><img src="/user/verification" alt="验证码" style="cursor: pointer;margin-left: 34px" onclick="changeImage(this)"/></td>
+                            </tr>
+                        </table>
+                        <table>
+                            <tr>
+                                <td style="color: red;font-size: small"><span id="userverification_error1">{{ userverification_error }}</span></td>
+                            </tr>
+                        </table>
+                    </div>
+                        <div class="choose">
+                            <input type="checkbox" id="check" class="check" name="remembername" value="1"><label for="check" class="label1">记住用户名</label>
+                            <a class="forget" href="#">忘记密码</a>
+                        </div>
+                        <input type="submit" class="enter_sub" value="登录">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <div class="link">
+                <a href="#">关于我们</a>&nbsp; | &nbsp;
+                <a href="#">联系我们</a>&nbsp; | &nbsp;
+                <a href="#">招聘人才</a>&nbsp; | &nbsp;
+                <a href="#">友情链接</a>
+            </div>
+            <div class="copy-right">
+                <p> Copyright © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+            </div>
+            <div class="tel">
+                <p>电话：01-****888 京ICP备*******8号</p>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>天天生鲜注册界面</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/fresh_css.css">
+    <script src="/static/js/jquery-1.12.5.js"></script>
+    <script src="/static/js/register.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.validate.min.js"></script>
+    <script type="text/javascript">
+{#        function check() {#}
+{#            $("#signupForm").validate({#}
+{#                rules: {#}
+{#                    User: {#}
+{#                        required: true,#}
+{#                        minlength: 6,#}
+{#                        maxlength: 16#}
+{#                    },#}
+{#                    Password: {#}
+{#                        required: true,#}
+{#                        minlength: 6,#}
+{#                        maxlength: 16#}
+{#                    },#}
+{#                    Confirm: {#}
+{#                        required: true,#}
+{#                        minlength: 6,#}
+{#                        maxlength: 16,#}
+{#                        equalTo: "#Password"#}
+{#                    },#}
+{#                    Email: {#}
+{#                        required: true,#}
+{#                        email: true#}
+{#                    },#}
+{#                    /*allow:{#}
+{#                        required:checked,}*/#}
+{#                },#}
+{#                messages: {#}
+{#                    User: {#}
+{#                        required: "请输入用户名",#}
+{#                        minlength: "用户名长度不能小于 6 位",#}
+{#                        maxlength: "用户名长度不能大于 16 位"#}
+{#                    },#}
+{#                    Password: {#}
+{#                        required: "请输入密码",#}
+{#                        minlength: "密码长度不能小于 6 位",#}
+{#                        maxlength: "密码长度不能大于 16 位"#}
+{#                    },#}
+{#                    Confirm: {#}
+{#                        required: "请输入密码",#}
+{#                        minlength: "密码长度不能小于 6 位",#}
+{#                        maxlength: "密码长度不能大于 16 位",#}
+{#                        equalTo: "两次密码输入不一致"#}
+{#                    },#}
+{#                    Email: "邮箱无效，请重新输入",#}
+{#                    allow:"同意协议，方可注册"#}
+{#                }#}
+{#            })#}
+{#        }#}
+        $(function(){
+            var error_check = false;
+            $('#allow').click(function() {
+                if($(this).is(':checked'))
+                {
+                    error_check = false;
+                    $(this).siblings('span').hide();
+                }
+                else
+                {
+                    error_check = true;
+                    $(this).siblings('span').html('请勾选同意');
+                    $(this).siblings('span').show();
+                }
+            });
+            $('#reg_form').submit(function() {
+                if(error_check == false)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            });
+            //check()
+{#            $(document).contextmenu(function() {#}
+{#                return false;#}
+{#            });#}
+            $("#User").focus();
+
+        })
+
+    </script>
+
+
+</head>
+<body>
+<div class="register">
+    <form class="cmxform2" id="signupForm" method="post" action="/user/result">
+        {% csrf_token %}
+        <div class="register_body">
+            <div class="inside_reg">
+                <div class="web_logo">
+                    <a href="/goods/index">
+                    <img src="/static/image/logo02.png" alt=""></a>
+                    <div class="register_note">
+                        <p>足不出户 · 新鲜每一天</p>
+                    </div>
+                    <img src="/static/image/register_banner.png" alt="">
+                </div>
+                <div class="new_log_in">
+                    <div class="new_user_choose">
+                        <p class="new_user" >用户注册</p><a class="user_login" href="/user/login">登录</a>
+                    </div>
+                    <div class="user_register">
+                        <ul class="reg_ul">
+                            <li>
+                                <span>用户名：</span>
+                                <input type="text" id="username" name="username" value="" class="reg_user">
+                                <span id="username_error" ></span>
+                            </li>
+                            <li>
+                                <span>密码：</span>
+                                <input type="password" id="Password" name="userpwd" value=""class="reg_password">
+                                <span id="userpwd_error" ></span>
+                            </li>
+                            <li>
+                                <span>确认密码：</span>
+                                <input type="password" id="Confirm" name="Confirm" value=""class="reg_confirm">
+                                <span id="userconfirm_error" ></span>
+                            </li>
+                            <li>
+                                <span>邮箱：</span>
+                                <input type="text" id="Email" name="uemail" value="" class="reg_email">
+                                <span id="useremail_error" ></span>
+                            </li>
+                            <li>
+                                <span>验证码：</span>
+                                <input id="userverification" name="userverification" style="width: 100px;float: left;margin-left: 40px"/>
+                                <img src="/user/verification" alt="验证码" style="cursor: pointer;margin-left: 29px" onclick="changeImage(this)"/>
+                                <span id="userverification_error">{{ userverification_error }}</span>
+                            </li>
+                        <div class="new_user_check">
+                            <input type="checkbox" id="allow" class="allow" checked="checked">
+                            <label for="allow" class="label2">同意“天天生鲜用户使用协议”</label>
+                            <span class="error_tip2"></span>
+                        </div>
+                        <input type="submit" class="reg_sub" value="注册">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <div class="link">
+                <a href="#">关于我们</a>&nbsp; | &nbsp;
+                <a href="#">联系我们</a>&nbsp; | &nbsp;
+                <a href="#">招聘人才</a>&nbsp; | &nbsp;
+                <a href="#">友情链接</a>
+            </div>
+            <div class="copy-right">
+                <p> Copyright © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+            </div>
+            <div class="tel">
+                <p>电话：01-****888 京ICP备*******8号</p>
+            </div>
+        </div>
+    </form>
+</div>
+</body>
+</html>

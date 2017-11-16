@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>收货地址</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/fresh_css.css">
+    <script src="/static/js/jquery-1.12.5.js"></script>
+    <style type="text/css">
+        #ureceive_error{font-size: 10px;color: red;margin-left: 119px}
+        #uaddress_error{font-size: 10px;color: red;margin-left: 119px}
+        #uphone_error{font-size: 10px;color: red;margin-left: 119px}
+        #uzipcode_error{font-size: 10px;color: red;margin-left: 119px}
+    </style>
+    <script type="text/javascript" src="/static/js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="/static/js/address.js"></script>
+{#    <script type="text/javascript">#}
+{#        $().ready(function() {#}
+{#            $("#signupForm").validate({#}
+{#                rules: {#}
+{#                    recipients: {#}
+{#                        required: true,#}
+{#                        minlength: 2,#}
+{#                        maxlength: 8#}
+{#                    },#}
+{#                    Address: {#}
+{#                        required: true,#}
+{#                    },#}
+{#                    postcode: {#}
+{#                        required: true,#}
+{#                        isZipCode: true#}
+{#                    },#}
+{#                    tel:{#}
+{#                        required:true,#}
+{#                        isPhone:true#}
+{#                    },#}
+{#                },#}
+{#                messages: {#}
+{#                    recipients: {#}
+{#                        required: "请输入收件人",#}
+{#                        minlength: "收件人姓名不能低于 2 位",#}
+{#                        maxlength: "收件人姓名不能高于 8 位"#}
+{#                    },#}
+{#                    Address: {#}
+{#                        required: "请输入详细地址",#}
+{#                    },#}
+{#                    postcode: {#}
+{#                        required: "请输入收件人的邮编",#}
+{#                        isZipCode:"请正确的邮编"#}
+{#                    },#}
+{#                    tel:{#}
+{#                        required: "请输入收件人的联系电话",#}
+{#                        isPhone: "请输入一个有效的联系电话"#}
+{#                    },#}
+{#                }#}
+{#            })#}
+{#        })#}
+{#        $(function(){#}
+{#            check();#}
+{#            $(document).contextmenu(function() {#}
+{#                return false;#}
+{#            });#}
+{#            $("#recipients").focus();#}
+{#        })#}
+{##}
+{#    </script>#}
+    <style>
+        .error{
+            color:red;
+        }
+    </style>
+</head>
+<body>
+<div class="Cart">
+
+        <div class="head">
+            <div class="headline">
+                <div class="welcome"><span>欢迎来到天天生鲜！</span></div>
+                <div class="nav">
+                    <ul>
+                        {% if request.session.currentUser|default:'' != '' %}
+                        <li><span>欢迎您：</span><a href="/user/user_center">{{ request.session.currentUser }}</a><span>|</span></li>
+                        <li><a href="/user/logout">退出</a><span>|</span></li>
+                        {% else %}
+                        <li><a href="/user/login">登录</a><span>|</span></li>
+                        <li><a href="/user/register">注册</a><span>|</span></li>
+                        {% endif %}
+                        <li><a href="/user/user_center">用户中心</a><span>|</span></li>
+                        <li><a href="/shopping_cart/">我的购物车</a><span>|</span></li>
+                        <li><a href="/order/order_list">我的订单</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="user_center ">
+            <div class="user_center0">
+                <div class="user_center1">
+                    <div class="log_loc">
+                        <div class="log01"><a href="/goods/index"><img src="/static/image/logo.png" alt="logo"></a></div>
+                        <div class="loc01">
+                            <span>|</span>
+                            <span>用户中心</span>
+                        </div>
+                    </div>
+                    <div class="goods_seek">
+                        <form action="/goods/goods_search" method="get">
+                            <input type="text" class="seek1" name="keyword"　{% if keyword %} value="{{ keyword }}" {% else %} placeholder="搜索商品" {% endif %}>
+                            <input type="submit" class="seek2" name="" value="搜索">
+                        </form>
+                    </div>
+                </div>
+        <form class="cmxform" id="signupForm" method="post" action="/user/user_address">
+                <div class="user_center2">
+                    <div class="user_list">
+                        <div class="user_center_headline"><span>用户中心</span></div>
+                        <div>
+                            <ul>
+                                <li class="user_center_menu"><a href="/user/user_center">· 个人信息</a></li>
+                                <li class="user_center_menu"><a href="/order/order_list">· 全部订单</a></li>
+                                <li class="user_center_menu1"><a href="/user/user_address">· 收货地址</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="particulars">
+                        <div>
+                            <span class="particulars1">收货地址</span>
+                            <div class="shop_address">
+                                <ul>
+                                    <li><span class="shop_address1">当前地址：</span></li>
+                                    <li><span class="shop_address2">{% if  user.uphone %}{{ user.uaddress }}（{{ user.ureceive }}&nbsp;收）{{ uphone }}{% else %}{% endif %}</span></li>
+                                </ul>
+                            </div>
+                            <span class="particulars1">编辑地址</span>
+                            <div class="edit_address">
+                                <ul class="edit_address1">
+                                    <li class="edit_address11" style="height: 25px"><span>收件人：</span><input type="text" id="recipients" name="recipients" class="recipients" value="{{ user.ureceive }}"></li><li><span id="ureceive_error"></span></li>
+                                    <li class="edit_address11" style="height: 79px"><span>详细地址：</span><textarea  rows="5" cols="30"  id="Address" name="Address" class="Address">{{ user.uaddress }}</textarea></li><li><span id="uaddress_error"></span></li>
+                                    <li class="edit_address11" style="height: 24px"><span>邮编：</span><input type="text" id="postcode" name="postcode" class="postcode" value="{{ user.uzipcode }}"></li><li><span id="uzipcode_error"></span></li>
+                                    <li class="edit_address11" style="height: 22px"><span>手机：</span><input type="text" id="tel" name="tel" class="tel" value="{{ user.uphone }}"></li><li><span id="uphone_error"></span></li>
+                                    <li class="edit_address12"><input type="submit" value="提交" class="edit_address12_1"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="foot">
+            <div class="link">
+                <a href="#">关于我们</a>&nbsp; | &nbsp;
+                <a href="#">联系我们</a>&nbsp; | &nbsp;
+                <a href="#">招聘人才</a>&nbsp; | &nbsp;
+                <a href="#">友情链接</a>
+            </div>
+            <div class="copy-right">
+                <p> Copyright © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
+            </div>
+            <div class="tel">
+                <p>电话：01-****888 京ICP备*******8号</p>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
